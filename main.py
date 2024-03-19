@@ -26,11 +26,7 @@ headers = {"Authorization": f"Bearer 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"}
 class Response(BaseModel):
     result: str | None
 
-origins = [
-    "http://localhost:8080",
-    "http://localhost",
-    "http://localhost:3000"
-]
+origins = ["*"]
 
 app = FastAPI()
 app.add_middleware(
