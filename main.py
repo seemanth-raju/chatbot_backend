@@ -149,4 +149,4 @@ async def predict(question: str = Form(None), file: UploadFile = File(None)) -> 
 @app.get("/retrieve-data", response_class=JSONResponse)
 async def retrieve_data() -> List[dict]:
     data = retrieve_from_mongodb()
-    return JSONResponse(content=data)
+    return data
