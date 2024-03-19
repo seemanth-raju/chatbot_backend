@@ -122,25 +122,33 @@ def query(payload):
 @app.post("/predict", response_model=Response)
 async def predict(question: str = Form(None), file: UploadFile = File(None)) -> Any:
     if question:
+        # If a question is provided, query the model
         output = query({"inputs": question})
         if not output:
             raise HTTPException(status_code=500, detail="Error occurred during processing.")
         result = output[0]['generated_text']
     elif file:
+        # If a file is provided, process the file and query the model
         question = process_file(file)
-        output1 = query({"inputs": question})
-        if not output1:
+        output = query({"inputs": question})
+        if not output:
             raise HTTPException(status_code=500, detail="Error occurred during processing.")
-        result = output1[0]['generated_text']
+        result = output[0]['generated_text']
     else:
         raise HTTPException(status_code=400, detail="No question or file provided.")
+
+    # Process the result, modify it if needed, and store it in MongoDB
     result = process_result(result, question)
     result = modify_text(result)
     store_in_mongodb(question, file.filename if file else None, result)
 
+    # Return the result
     return {"result": result}
 
+# Define the GET endpoint for retrieving data from MongoDB
 @app.get("/retrieve-data", response_class=JSONResponse)
 async def retrieve_data() -> List[dict]:
+    # Retrieve data from MongoDB
     data = retrieve_from_mongodb()
+    return datave_from_mongodb()
     return data
