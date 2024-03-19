@@ -9,4 +9,5 @@ requests==2.26.0
 pymongo==4.0.1
 pdfplumber
 python-multipart
-
+pandas==1.4.0
+uvicorn==0.28.0
