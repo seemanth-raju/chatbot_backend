@@ -148,7 +148,5 @@ async def predict(question: str = Form(None), file: UploadFile = File(None)) -> 
 # Define the GET endpoint for retrieving data from MongoDB
 @app.get("/retrieve-data", response_class=JSONResponse)
 async def retrieve_data() -> List[dict]:
-    # Retrieve data from MongoDB
     data = retrieve_from_mongodb()
-    return datave_from_mongodb()
-    return data
+    return JSONResponse(content=data)
